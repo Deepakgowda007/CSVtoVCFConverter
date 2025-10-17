@@ -1,0 +1,5 @@
+{
+  "name": "CSV to VCF Converter",
+  "description": "A simple desktop application that converts CSV contact files to industry-standard vCard (.vcf) format. The tool provides an intuitive drag-and-drop interface with fixed CSV header mapping, vCard 3.0 output, and complete offline processing to ensure data privacy.",
+  "requestFramePermissions": []
+}
