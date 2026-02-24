@@ -1,0 +1,14 @@
+#!/bin/bash
+# AppRun script for CSV to VCF Converter
+# This script sets necessary environment variables for compatibility
+
+# Set environment variables to disable sandbox (for AppImage compatibility)
+export ELECTRON_DISABLE_SANDBOX=1
+export ELECTRON_NO_SANDBOX=1
+export APPIMAGE_SILENT_INSTALL=1
+
+# Get the directory where AppImage is mounted
+APPDIR="$(dirname "$(readlink -f "$0")")"
+
+# Execute the main application
+exec "$APPDIR/csv-to-vcf-converter" "$@"

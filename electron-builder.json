@@ -1,0 +1,38 @@
+{
+  "appId": "com.deepakgowda.csv-to-vcf-converter",
+  "productName": "CSV to VCF Converter",
+  "directories": {
+    "output": "release",
+    "buildResources": "packaging"
+  },
+  "files": [
+    "dist/**/*",
+    "electron/**/*",
+    "package.json"
+  ],
+  "extraFiles": [
+    {
+      "from": "packaging/AppRun",
+      "to": "AppRun"
+    }
+  ],
+  "linux": {
+    "target": [
+      "AppImage"
+    ],
+    "category": "Utility",
+    "icon": "packaging/debian/usr/share/icons/hicolor/scalable/apps/csv-to-vcf-converter.svg",
+    "desktop": {
+      "Name": "CSV to VCF Converter",
+      "Comment": "Convert CSV contacts to VCF format - 100% Offline",
+      "Categories": "Utility;Office;ContactManagement;",
+      "Terminal": false,
+      "Keywords": "csv;vcf;vcard;contacts;converter;offline;"
+    }
+  },
+  "appImage": {
+    "license": "LICENSE",
+    "category": "Utility",
+    "artifactName": "${productName}-${version}.${ext}"
+  }
+}
