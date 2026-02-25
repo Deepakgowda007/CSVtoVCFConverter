@@ -4,6 +4,8 @@ import { Contact } from './types';
 import { CsvIcon, PlusIcon, ArrowRightIcon, DownloadIcon, RefreshIcon } from './components/Icon';
 import { MobileContactCard } from './components/MobileContactCard';
 import { SuccessModal } from './components/SuccessModal';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Capacitor } from '@capacitor/core';
 
 // Add JSZip to the window scope for TypeScript
 declare const JSZip: any;
@@ -48,6 +50,23 @@ const AppMobile: React.FC = () => {
     }
 
     event.target.value = '';
+  };
+
+  const handleImportClick = async () => {
+    // Check if running on native platform (Android/iOS)
+    if (Capacitor.isNativePlatform()) {
+      try {
+        // For Android, we need to use a different approach
+        // Trigger the file input which will open Android's file picker
+        fileInputRef.current?.click();
+      } catch (error) {
+        console.error('Error opening file picker:', error);
+        alert('Error opening file picker. Please try again.');
+      }
+    } else {
+      // Web browser - use normal file input
+      fileInputRef.current?.click();
+    }
   };
   
   const handleContactChange = useCallback((index: number, field: keyof Contact, value: string) => {
@@ -117,7 +136,42 @@ const AppMobile: React.FC = () => {
   const handleDownload = async () => {
     if (!isConverted) return;
 
-    if (conversionType === 'single') {
+    // Check if running on native platform
+    if (Capacitor.isNativePlatform()) {
+      try {
+        if (conversionType === 'single') {
+          // Save single VCF file
+          const fileName = 'contacts.vcf';
+          await Filesystem.writeFile({
+            path: fileName,
+            data: vcfOutput.single,
+            directory: Directory.Documents,
+            encoding: 'utf8'
+          });
+          alert(`File saved to Documents/${fileName}`);
+        } else {
+          // For multiple files, we still need to create a zip
+          // Save as zip file
+          const zip = new JSZip();
+          vcfOutput.multiple.forEach(file => {
+            zip.file(file.name, file.content);
+          });
+          const zipBlob = await zip.generateAsync({ type: 'base64' });
+          const fileName = 'contacts.zip';
+          await Filesystem.writeFile({
+            path: fileName,
+            data: zipBlob,
+            directory: Directory.Documents
+          });
+          alert(`File saved to Documents/${fileName}`);
+        }
+      } catch (error) {
+        console.error('Error saving file:', error);
+        alert('Error saving file. Please try again.');
+      }
+    } else {
+      // Web browser - use normal download
+      if (conversionType === 'single') {
         const blob = new Blob([vcfOutput.single], { type: 'text/vcard;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -127,10 +181,10 @@ const AppMobile: React.FC = () => {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-    } else {
+      } else {
         const zip = new JSZip();
         vcfOutput.multiple.forEach(file => {
-            zip.file(file.name, file.content);
+          zip.file(file.name, file.content);
         });
         const blob = await zip.generateAsync({ type: 'blob' });
         const url = URL.createObjectURL(blob);
@@ -141,32 +195,33 @@ const AppMobile: React.FC = () => {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+      }
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white font-sans pb-20">
-      {/* Header - Fixed */}
-      <header className="sticky top-0 z-10 bg-slate-900/95 backdrop-blur-sm border-b border-slate-700 px-4 py-4">
+    <div className="min-h-screen bg-slate-900 text-white font-sans">
+      {/* Header - Fixed with safe area */}
+      <header className="sticky top-0 z-10 bg-slate-900/95 backdrop-blur-sm border-b border-slate-700 px-4 py-4 pt-safe">
         <div className="flex items-center justify-center gap-3">
           <CsvIcon className="w-8 h-8 text-sky-400" />
           <h1 className="text-xl font-bold tracking-tight text-slate-100">CSV to VCF</h1>
         </div>
       </header>
 
-      {/* Main Content - Scrollable */}
-      <main className="px-4 py-4">
+      {/* Main Content - Scrollable with bottom padding for fixed bar */}
+      <main className="px-4 py-4 pb-32">{/* Increased bottom padding */}
         {/* Action Buttons */}
         <div className="flex flex-col gap-3 mb-6">
           <input 
             type="file" 
             ref={fileInputRef} 
             onChange={handleFileSelect} 
-            accept=".csv" 
+            accept=".csv,text/csv,text/comma-separated-values,application/csv" 
             className="hidden" 
           />
           <button 
-            onClick={() => fileInputRef.current?.click()} 
+            onClick={handleImportClick} 
             className="w-full px-4 py-4 bg-sky-600 hover:bg-sky-700 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 text-base active:scale-95"
           >
             <CsvIcon className="w-5 h-5" /> Import CSV
@@ -241,9 +296,9 @@ const AppMobile: React.FC = () => {
         </div>
       </main>
 
-      {/* Bottom Action Bar - Fixed */}
-      <div className="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-sm border-t border-slate-700 px-4 py-3">
-        <div className="flex gap-3">
+      {/* Bottom Action Bar - Fixed with safe area */}
+      <div className="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-sm border-t border-slate-700 px-4 py-3 pb-safe">
+        <div className="flex gap-3 mb-safe">
           <button 
             onClick={handleConvert} 
             className="flex-1 px-4 py-4 bg-green-600 hover:bg-green-700 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 text-base active:scale-95"
