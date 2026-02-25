@@ -5,7 +5,7 @@ A cross-platform application that converts CSV contact files to industry-standar
 ## 🖥️ Available Platforms
 
 - **🐧 Linux Desktop** - AppImage (works on all Linux distros)
-- **📱 Android Mobile** - APK (coming soon)
+- **📱 Android Mobile** - APK available now! [Download from Releases](https://github.com/Deepakgowda007/CSVtoVCFConverter/releases)
 
 ## ✨ Features
 
@@ -67,7 +67,23 @@ To remove the app from your system:
 
 ### For Users
 
-**Coming Soon!** The Android APK will be available for download.
+**Download the APK:**
+1. Go to [Releases](https://github.com/Deepakgowda007/CSVtoVCFConverter/releases)
+2. Download `CSV-to-VCF-Converter-v1.0.0-android.apk`
+3. Enable "Install from unknown sources" in Android Settings
+4. Tap the APK file to install
+5. Open the app and start converting!
+
+**Requirements:**
+- Android 5.0 (Lollipop) or higher
+- ~5 MB storage space
+
+**Features:**
+- Touch-optimized interface
+- Works on all screen sizes
+- Respects notches and navigation bars
+- Saves files to Documents folder
+- 100% offline
 
 ### For Developers
 
