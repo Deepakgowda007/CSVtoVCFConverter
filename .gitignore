@@ -24,5 +24,21 @@ npm-debug.log*
 # Electron
 out/
 
+# Android
+android/app/build/
+android/build/
+android/.gradle/
+android/local.properties
+android/.idea/
+*.apk
+*.aab
+
+# iOS (for future)
+ios/App/build/
+ios/App/Pods/
+
+# Capacitor
+.capacitor/
+
 # Package lock (optional - uncomment if you want to ignore it)
 # package-lock.json

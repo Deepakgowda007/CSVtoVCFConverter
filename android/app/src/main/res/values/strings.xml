@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">CSV to VCF Converter</string>
+    <string name="title_activity_main">CSV to VCF Converter</string>
+    <string name="package_name">com.vibecodeforgood.csvtovcf</string>
+    <string name="custom_url_scheme">com.vibecodeforgood.csvtovcf</string>
+</resources>

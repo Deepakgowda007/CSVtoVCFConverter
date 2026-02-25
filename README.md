@@ -1,20 +1,30 @@
 # CSV to VCF Converter
 
-A simple desktop application that converts CSV contact files to industry-standard vCard (.vcf) format. Works 100% offline with complete privacy - your data never leaves your computer.
+A cross-platform application that converts CSV contact files to industry-standard vCard (.vcf) format. Works 100% offline with complete privacy - your data never leaves your device.
+
+## 🖥️ Available Platforms
+
+- **🐧 Linux Desktop** - AppImage (works on all Linux distros)
+- **📱 Android Mobile** - APK (coming soon)
 
 ## ✨ Features
 
 - 🔒 **100% Offline & Secure** - No internet required
 - 📁 **Import CSV files** with contact data
-- ✏️ **Edit contacts** in an intuitive table interface
+- ✏️ **Edit contacts** in an intuitive interface
 - 💾 **Export options** - Single VCF file or Multiple VCF files (zipped)
 - 👁️ **Preview contacts** before conversion
-- 🖥️ **Desktop app** - Installs to your application menu
-- 🐧 **Works on all Linux** - Ubuntu, Fedora, Debian, Arch, and more
+- 🖥️ **Desktop app** - Installs to your application menu (Linux)
+- 📱 **Mobile app** - Touch-optimized interface (Android)
+- 🌐 **Cross-platform** - Same features on all devices
 
-## 🚀 Quick Start (For Users)
+---
 
-### Option 1: Install to Application Menu (Recommended)
+## 🐧 Linux Desktop Installation
+
+### Quick Start (For Users)
+
+#### Option 1: Install to Application Menu (Recommended)
 
 This will add the app to your system menu so you can use it anytime like any other app.
 
@@ -37,17 +47,49 @@ npm run package
 - Click to launch anytime
 - Pin it to favorites/dock
 
-### Option 2: Run Portable (No Installation)
+#### Option 2: Run Portable (No Installation)
 
 Just run the AppImage file directly:
 ```bash
 ./release/CSV\ to\ VCF\ Converter-1.0.0.AppImage
 ```
 
+### Uninstall
+
+To remove the app from your system:
+```bash
+./uninstall.sh
+```
+
+---
+
+## 📱 Android Mobile Installation
+
+### For Users
+
+**Coming Soon!** The Android APK will be available for download.
+
+### For Developers
+
+To build the Android APK yourself:
+
+1. **Install Android Studio** (see [ANDROID-SETUP.md](ANDROID-SETUP.md))
+2. **Build the APK:**
+   ```bash
+   npm install
+   npm run android:build
+   ```
+3. **Find APK at:** `android/app/build/outputs/apk/debug/app-debug.apk`
+4. **Install on your Android device**
+
+For detailed Android setup instructions, see [ANDROID-SETUP.md](ANDROID-SETUP.md).
+
+---
+
 ## 📖 How to Use
 
 1. **Import CSV** - Click "Import CSV" button and select your CSV file
-2. **Edit Contacts** - Review and edit contacts in the table (First Name and Phone are required)
+2. **Edit Contacts** - Review and edit contacts (First Name and Phone are required)
 3. **Choose Format** - Select Single File (.vcf) or Multiple Files (.zip)
 4. **Convert** - Click "Convert to VCF" button
 5. **Download** - Click "Download" to save your VCF file(s)
@@ -63,43 +105,64 @@ After converting, you can import your VCF files to:
 - **WhatsApp**: Import VCF to phone contacts, then sync with WhatsApp
 - **Any Device**: VCF is universally supported!
 
-## 🗑️ Uninstall
-
-To remove the app from your system:
-```bash
-./uninstall.sh
-```
+---
 
 ## 💻 For Developers
 
-### Run in Development Mode
-```bash
-npm install
-npm run dev
-```
-
-### Build AppImage
-```bash
-npm run package
-```
-
-The AppImage will be created in the `release/` folder.
-
 ### Project Structure
+
 ```
-├── components/          # React components
-├── services/           # VCF generation logic
-├── electron/           # Electron main process
-├── packaging/          # AppImage packaging files
-├── install.sh          # Installation script
-└── uninstall.sh        # Uninstallation script
+├── components/          # React components (shared)
+├── services/           # VCF generation logic (shared)
+├── electron/           # Electron main process (Linux desktop)
+├── android/            # Android project (Capacitor)
+├── packaging/          # AppImage packaging files (Linux)
+├── App.tsx             # Desktop UI
+├── AppMobile.tsx       # Mobile UI
+├── AppResponsive.tsx   # Responsive wrapper
+├── install.sh          # Linux installation script
+└── uninstall.sh        # Linux uninstallation script
 ```
 
-## 🛠️ Requirements
+### Development Commands
+
+**Web Development:**
+```bash
+npm run dev          # Run Vite dev server
+npm run build        # Build web app
+```
+
+**Linux Desktop:**
+```bash
+npm run package      # Build AppImage for Linux
+```
+
+**Android Mobile:**
+```bash
+npm run android:build    # Build debug APK
+npm run android:release  # Build release APK
+npm run android:open     # Open in Android Studio
+```
+
+### Requirements
 
 - **Node.js** (v18 or higher)
 - **npm**
-- **Linux** (for AppImage)
+- **Linux** (for AppImage building)
+- **Android Studio** (for Android APK building)
+
+---
+
+## 🛠️ Technology Stack
+
+- **Frontend:** React + TypeScript
+- **Build Tool:** Vite
+- **Desktop:** Electron (Linux AppImage)
+- **Mobile:** Capacitor (Android)
+- **Styling:** Tailwind CSS
+- **File Format:** vCard 3.0
+
+---
 
 ## 📄 License
 
@@ -111,4 +174,7 @@ Built as part of [VibeCodeForGood](https://vibecodeforgood-18492.web.app/) initi
 
 ---
 
-**Need help?** Click **Help** menu in the app for detailed instructions on how to use CSV to VCF converter and where to import your VCF files.
+**Need help?** 
+- **Linux:** Click **Help** menu in the app for detailed instructions
+- **Android:** See [ANDROID-SETUP.md](ANDROID-SETUP.md) for build instructions
+- **General:** Check [INSTALLATION-GUIDE.md](INSTALLATION-GUIDE.md)
