@@ -162,10 +162,35 @@ npm run android:open     # Open in Android Studio
 
 ### Requirements
 
-- **Node.js** (v18 or higher)
-- **npm**
+- **Node.js v22 or higher** (REQUIRED - v18 will NOT work)
+- **npm** (comes with Node.js)
 - **Linux** (for AppImage building)
 - **Android Studio** (for Android APK building)
+
+### Installing/Updating Node.js
+
+If you have an older Node.js version, update it:
+
+**Option 1: Using nvm (Recommended)**
+```bash
+# Install nvm if you don't have it
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+
+# Install Node.js v22
+nvm install 22
+nvm use 22
+nvm alias default 22
+```
+
+**Option 2: Direct Download**
+- Visit [nodejs.org](https://nodejs.org/)
+- Download Node.js v22 LTS or Current
+- Install and restart your terminal
+
+**Check your version:**
+```bash
+node --version  # Should show v22.x.x or higher
+```
 
 ---
 
@@ -187,6 +212,66 @@ MIT License - See [LICENSE](LICENSE) file for details
 ## 🌟 About
 
 Built as part of [VibeCodeForGood](https://vibecodeforgood-18492.web.app/) initiative by [Deepak Gowda](https://github.com/Deepakgowda007).
+
+---
+
+## 🔧 Troubleshooting
+
+### Build Fails with "Unsupported engine" Error
+
+**Problem:** You see errors like:
+```
+npm WARN EBADENGINE required: { node: '>=22.0.0' }
+npm WARN EBADENGINE current: { node: 'v18.19.1' }
+```
+
+**Solution:** Your Node.js version is too old. Update to Node.js v22+:
+```bash
+# Check current version
+node --version
+
+# If less than v22, update using nvm:
+nvm install 22
+nvm use 22
+
+# Or download from nodejs.org
+```
+
+### Build Fails with "require() of ES Module" Error
+
+**Problem:** Vite build fails with ES Module import errors.
+
+**Solution:** This happens with Node.js v18 or older. Update to Node.js v22+.
+
+### Nested Directory Structure
+
+**Problem:** You cloned into nested folders like `CSVtoVCFConverter/CSVtoVCFConverter/CSVtoVCFConverter/`
+
+**Solution:** 
+```bash
+# Remove the nested folders
+cd ~
+rm -rf CSVtoVCFConverter
+
+# Clone fresh into a clean directory
+git clone https://github.com/Deepakgowda007/CSVtoVCFConverter.git
+cd CSVtoVCFConverter
+npm install
+npm run package
+```
+
+### AppImage Won't Run
+
+**Problem:** Double-clicking AppImage does nothing.
+
+**Solution:**
+```bash
+# Make it executable
+chmod +x release/CSV\ to\ VCF\ Converter-1.0.0.AppImage
+
+# Run it
+./release/CSV\ to\ VCF\ Converter-1.0.0.AppImage
+```
 
 ---
 

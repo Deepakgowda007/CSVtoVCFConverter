@@ -5,6 +5,10 @@
   "description": "Convert CSV contacts to VCF format - 100% offline and secure",
   "author": "Deepak Gowda <https://github.com/Deepakgowda007>",
   "main": "electron/main.js",
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=9.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
